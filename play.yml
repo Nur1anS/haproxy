@@ -1,0 +1,15 @@
+- hosts: all
+  become: yes
+  roles:
+    - { role: nginx }
+    - { role: haproxy }
+    # - { role: memcached }
+    # - { role: php5 }
+    # - { role: phpmyadmin }
+  # vars:
+  #   nginx_user: nginx
+  #   worker_processes: auto
+  #   worker_connections: 2048
+  #   client_max_body_size: 512M
+  vars_files:
+    - vars.yml

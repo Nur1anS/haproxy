@@ -1,0 +1,41 @@
+---
+- name: Ensure dependencies are installed.
+  apt:
+    name: dirmngr
+    state: present
+
+- name: Ensure PPA for haproxy is present.
+  apt_repository:
+    repo: 'ppa:vbernat/haproxy-{{ haproxy_ppa_version }}'
+    state: present
+    update_cache: true
+  register: haproxy_ppa_added
+  when: haproxy_ppa_use and ansible_hostname == "node1"
+
+- name: Ensure haproxy will reinstall if the PPA was just added.
+  apt:
+    name:
+      # - "glusterfs-server={{ glusterfs_package_version }}"
+      - "haproxy={{ haproxy_package_version }}"
+    state: absent
+  when: haproxy_ppa_added.changed
+  tags: ['skip_ansible_lint']
+
+- name: Ensure haproxy is installed.
+  apt:
+    name:
+      - "haproxy={{ haproxy_package_version }}"
+      # - "glusterfs-client={{ glusterfs_package_version }}"
+    state: present
+    default_release: "{{ haproxy_default_release }}"
+  when: haproxy_ppa_use and ansible_hostname == "node1"
+
+- name: Update haproxy config
+  template: src=config-haproxy.j2 dest={{ dest }}/haproxy.cfg mode=0555
+  notify:
+     - restart haproxy
+  when: ansible_hostname == "node1"
+
+
+
+

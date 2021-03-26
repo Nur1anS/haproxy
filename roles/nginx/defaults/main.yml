@@ -1,0 +1,6 @@
+---
+#dest: /usr/share/nginx/html
+dest: /var/www/html/
+dest2: /etc/nginx/
+
+# defaults file for nginx

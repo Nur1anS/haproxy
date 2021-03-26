@@ -1,0 +1,4 @@
+---
+dest: /etc/haproxy/
+
+# defaults file for haproxy

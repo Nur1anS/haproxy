@@ -1,0 +1,23 @@
+- name: Install Nginx Web Server
+  apt:  
+    name=nginx
+    state=latest
+    update_cache=yes
+  when: ansible_hostname == "node2" and ansible_hostname == "node3"
+
+- name: Ensure nginx is installed 
+  apt:
+    name=nginx
+    state=present  
+
+- name: Update nginx index.html
+  template: src=index.html.j2 dest={{ dest }}/index.html mode=0555
+  notify:
+     - restart nginx
+  when: ansible_hostname == "node2" and  ansible_hostname == "node3"
+
+
+# - name: Update nginx.conf
+#   template: src=config-1server.j2 dest={{ dest2 }}/nginx.conf mode=0555
+#   notify:
+#      - restart nginx

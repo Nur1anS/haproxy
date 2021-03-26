@@ -1,0 +1,28 @@
+---
+# Firewall config
+firewall_allowed_tcp_ports:
+  - 22
+  # For Gluster
+  - 111
+  # Port-mapper for Gluster 3.4+.
+  # - 2049
+  # Gluster daemon
+  - 24007
+  # 49152+ for Gluster 3.4+ (one port per each brick)
+  - 49152
+  # Gluster inline NFS server
+  - 38465
+  - 38466
+firewall_allowed_udp_ports:
+  - 111
+
+# Gluster config
+haproxy_default_release: ""
+haproxy_ppa_use: yes
+haproxy_ppa_version: "2.1"
+haproxy_package_version: "2.1.12-1ppa1~bionic"
+timeout_connect: 50000
+
+# gluster_mount_dir: /opt/test-gluster3
+# gluster_brick_dir: /data/brick
+# gluster_volume_name: gv0
